@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Вход для клиента{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Вход в личный кабинет клиента</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control") }}
+                    </div>
+                    {{ form.submit(class="btn btn-primary") }}
+                </form>
+                <hr>
+                <p>Нет аккаунта? <a href="{{ url_for('auth.client_register') }}">Зарегистрируйтесь</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
