@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Панель администратора{% endblock %}
+{% block content %}
+<h2>Панель администратора</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Пользователи</h5>
+                <p class="card-text display-6">{{ users_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Клиенты</h5>
+                <p class="card-text display-6">{{ clients_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Услуги</h5>
+                <p class="card-text display-6">{{ services_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Заявки</h5>
+                <p class="card-text display-6">{{ tickets_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4">
+    <a href="{{ url_for('admin.users') }}" class="btn btn-primary">Управление пользователями</a>
+    <a href="{{ url_for('admin.clients') }}" class="btn btn-secondary">Управление клиентами</a>
+    <a href="{{ url_for('admin.services') }}" class="btn btn-info">Управление услугами</a>
+    <a href="{{ url_for('admin.tickets') }}" class="btn btn-warning">Все заявки</a>
+    <a href="{{ url_for('admin.backup') }}" class="btn btn-success">Бэкап</a>
+</div>
+{% endblock %}
