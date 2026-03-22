@@ -72,3 +72,15 @@ class ServiceForm(FlaskForm):
 
 class BackupForm(FlaskForm):
     submit = SubmitField('Создать бэкап')
+
+class UserEditForm(FlaskForm):
+    username = StringField('Имя пользователя', validators=[DataRequired(), Length(min=3, max=64)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    role = SelectField('Роль', choices=[('operator', 'Оператор'), ('executor', 'Исполнитель'), ('admin', 'Администратор')])
+    password = PasswordField('Пароль', validators=[Length(min=6)])
+    password2 = PasswordField('Повторите пароль', validators=[EqualTo('password')])
+    submit = SubmitField('Сохранить')
+
+    def validate_username(self, username):
+        # при редактировании пользователя мы должны пропустить проверку на уникальность, если имя не изменилось
+        pass  # Будем обрабатывать в маршруте
