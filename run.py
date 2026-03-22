@@ -8,14 +8,13 @@ app = create_app()
 def make_shell_context():
     return {'db': db, 'User': User, 'Client': Client, 'Service': Service, 'Ticket': Ticket, 'Comment': Comment}
 
-# Создание таблиц и расширение столбца password_hash до 256 символов
+# Создание таблиц и расширение столбцов password_hash
 with app.app_context():
     db.create_all()
     
-    # Проверяем, используется ли PostgreSQL, и если столбец password_hash имеет тип varchar(128), расширяем
     if db.engine.dialect.name == 'postgresql':
+        # Расширение для users
         try:
-            # Получаем информацию о столбце
             result = db.session.execute(
                 sa.text("""
                     SELECT data_type, character_maximum_length 
@@ -24,12 +23,29 @@ with app.app_context():
                 """)
             )
             row = result.fetchone()
-            if row and row[1] == 128:  # если длина 128
+            if row and row[1] == 128:
                 db.session.execute(sa.text("ALTER TABLE users ALTER COLUMN password_hash TYPE VARCHAR(256);"))
                 db.session.commit()
-                print("Столбец password_hash расширен до VARCHAR(256)")
+                print("Столбец password_hash в users расширен до VARCHAR(256)")
         except Exception as e:
-            print(f"Ошибка при изменении столбца: {e}")
+            print(f"Ошибка при изменении столбца users.password_hash: {e}")
+        
+        # Расширение для clients
+        try:
+            result = db.session.execute(
+                sa.text("""
+                    SELECT data_type, character_maximum_length 
+                    FROM information_schema.columns 
+                    WHERE table_name='clients' AND column_name='password_hash'
+                """)
+            )
+            row = result.fetchone()
+            if row and row[1] == 128:
+                db.session.execute(sa.text("ALTER TABLE clients ALTER COLUMN password_hash TYPE VARCHAR(256);"))
+                db.session.commit()
+                print("Столбец password_hash в clients расширен до VARCHAR(256)")
+        except Exception as e:
+            print(f"Ошибка при изменении столбца clients.password_hash: {e}")
     
     # Создание администратора
     admin = User.query.filter_by(role='admin').first()
