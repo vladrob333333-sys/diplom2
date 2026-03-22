@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Завершить заявку{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Завершение заявки #{{ ticket.id }}</h4>
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите завершить заявку <strong>{{ ticket.title }}</strong>?</p>
+                <form method="POST">
+                    <button type="submit" class="btn btn-success">Да, завершить</button>
+                    <a href="{{ url_for('executor.my_tickets') }}" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
