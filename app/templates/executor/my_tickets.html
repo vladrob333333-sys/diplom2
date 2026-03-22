@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Мои заявки{% endblock %}
+{% block content %}
+<h2>Мои заявки</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Заголовок</th>
+                <th>Клиент</th>
+                <th>Статус</th>
+                <th>Приоритет</th>
+                <th>Создана</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.client.username }}</td>
+                <td>
+                    {% if ticket.status == 'assigned' %}
+                        <span class="badge bg-info">Назначена</span>
+                    {% elif ticket.status == 'in_progress' %}
+                        <span class="badge bg-primary">В работе</span>
+                    {% elif ticket.status == 'completed' %}
+                        <span class="badge bg-success">Завершена</span>
+                    {% elif ticket.status == 'rejected' %}
+                        <span class="badge bg-danger">Отказ</span>
+                    {% endif %}
+                </td>
+                <td>{{ ticket.priority }}</td>
+                <td>{{ ticket.created_at.strftime('%d.%m.%Y') }}</td>
+                <td>
+                    {% if ticket.status == 'assigned' %}
+                        <a href="{{ url_for('executor.start_ticket', ticket_id=ticket.id) }}" class="btn btn-sm btn-warning">Начать</a>
+                        <a href="{{ url_for('executor.reject_ticket', ticket_id=ticket.id) }}" class="btn btn-sm btn-danger">Отказаться</a>
+                    {% elif ticket.status == 'in_progress' %}
+                        <a href="{{ url_for('executor.complete_ticket', ticket_id=ticket.id) }}" class="btn btn-sm btn-success">Завершить</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
