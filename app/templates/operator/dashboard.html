@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Панель оператора{% endblock %}
+{% block content %}
+<h2>Панель оператора</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Все заявки</h5>
+                <p class="card-text display-6">{{ tickets_total }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Новые</h5>
+                <p class="card-text display-6">{{ tickets_new }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">В работе</h5>
+                <p class="card-text display-6">{{ tickets_in_progress }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Завершённые</h5>
+                <p class="card-text display-6">{{ tickets_completed }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4">
+    <a href="{{ url_for('operator.create_ticket') }}" class="btn btn-primary">Создать заявку</a>
+    <a href="{{ url_for('operator.tickets') }}" class="btn btn-secondary">Все заявки</a>
+    <a href="{{ url_for('operator.charts') }}" class="btn btn-info">Диаграммы</a>
+</div>
+{% endblock %}
