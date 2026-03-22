@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Панель исполнителя{% endblock %}
+{% block content %}
+<h2>Панель исполнителя</h2>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Мои активные заявки
+            </div>
+            <div class="card-body">
+                {% if my_tickets %}
+                    <ul class="list-group">
+                    {% for ticket in my_tickets[:5] %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ ticket.title }}
+                            <span class="badge bg-secondary">{{ ticket.status }}</span>
+                            <a href="{{ url_for('executor.my_tickets') }}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Нет активных заявок.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                Доступные заявки
+            </div>
+            <div class="card-body">
+                {% if available_tickets %}
+                    <ul class="list-group">
+                    {% for ticket in available_tickets[:5] %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ ticket.title }}
+                            <a href="{{ url_for('executor.accept_ticket', ticket_id=ticket.id) }}" class="btn btn-sm btn-success">Принять</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    <a href="{{ url_for('executor.available_tickets') }}" class="btn btn-link mt-2">Все доступные</a>
+                {% else %}
+                    <p>Нет доступных заявок.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-3">
+    <a href="{{ url_for('executor.my_tickets') }}" class="btn btn-primary">Мои заявки</a>
+    <a href="{{ url_for('executor.charts') }}" class="btn btn-info">Мои диаграммы</a>
+</div>
+{% endblock %}
