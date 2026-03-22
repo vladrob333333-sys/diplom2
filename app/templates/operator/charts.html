@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Диаграммы заявок{% endblock %}
+{% block head %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% block content %}
+<h2>Диаграммы заявок</h2>
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="statusChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="executorChart" width="400" height="400"></canvas>
+    </div>
+</div>
+<script>
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ status_labels|tojson }},
+            datasets: [{
+                data: {{ status_data|tojson }},
+                backgroundColor: ['#ffc107', '#0dcaf0', '#0d6efd', '#198754', '#6c757d', '#dc3545']
+            }]
+        }
+    });
+
+    const execCtx = document.getElementById('executorChart').getContext('2d');
+    new Chart(execCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ executor_data.keys()|list|tojson }},
+            datasets: [{
+                label: 'Количество заявок',
+                data: {{ executor_data.values()|list|tojson }},
+                backgroundColor: '#0d6efd'
+            }]
+        }
+    });
+</script>
+{% endblock %}
