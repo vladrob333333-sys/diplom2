@@ -84,3 +84,9 @@ class UserEditForm(FlaskForm):
     def validate_username(self, username):
         # при редактировании пользователя мы должны пропустить проверку на уникальность, если имя не изменилось
         pass  # Будем обрабатывать в маршруте
+class ClientTicketForm(FlaskForm):
+    title = StringField('Заголовок', validators=[DataRequired()])
+    description = TextAreaField('Описание')
+    priority = SelectField('Приоритет', choices=[('low', 'Низкий'), ('medium', 'Средний'), ('high', 'Высокий')], default='medium')
+    service_id = SelectField('Услуга', coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Создать заявку')
