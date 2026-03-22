@@ -17,6 +17,23 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role == 'admin' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Админ-панель</a>
+                            </li>
+                        {% elif current_user.role == 'operator' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('operator.dashboard') }}">Панель оператора</a>
+                            </li>
+                        {% elif current_user.role == 'executor' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('executor.dashboard') }}">Панель исполнителя</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
                         <li class="nav-item">
